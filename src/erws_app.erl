@@ -3,7 +3,7 @@
 -behaviour(application).
 
 %% Application callbacks
--export([start/2, stop/1]).
+-export([start/2, stop/1, start_link/2]).
 
 %% ===================================================================
 %% Application callbacks
@@ -27,14 +27,38 @@
 start(_Type, _Args) ->
         Dispatch = cowboy_router:compile([
                 {'_', [
-                        {"/", cowboy_static, {priv_file, websocket, "index.html"}},
-                        {"/websocket", ws_handler, []},
-                        {"/static/[...]", cowboy_static, {priv_dir, websocket, "static"}}
+                        {"/", cowboy_static, {priv_file, erws, "index.html"}},
+                        {"/websocket", erws_handler, []},
+                        {"/static/[...]", cowboy_static, {priv_dir, erws, "static"}}
                 ]}
         ]),
-        {ok, _} = cowboy:start_http(http, 100, [{port, 8080}],
+		% Dispatch = cowboy_router:compile([
+                % {'_', [
+                        % {"/websocket", erws_handler, []}
+                        
+                % ]}
+        % ]),
+        {ok, _} = cowboy:start_http(http, 100, [{port, 9318}],
                 [{env, [{dispatch, Dispatch}]}]),
-        websocket_sup:start_link().
+        erws_sup:start_link().		
+
+start_link(_Type, _Args) ->
+        Dispatch = cowboy_router:compile([
+                {'_', [
+                        {"/", cowboy_static, {priv_file, erws, "index.html"}},
+                        {"/websocket", erws_handler, []},
+                        {"/static/[...]", cowboy_static, {priv_dir, erws, "static"}}
+                ]}
+        ]),
+		% Dispatch = cowboy_router:compile([
+                % {'_', [
+                        % {"/websocket", erws_handler, []}
+                        
+                % ]}
+        % ]),
+        {ok, _} = cowboy:start_http(http, 100, [{port, 9318}],
+                [{env, [{dispatch, Dispatch}]}]),
+        erws_sup:start_link().
 
 stop(_State) ->
         ok.

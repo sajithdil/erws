@@ -6,3 +6,44 @@ sourcecode for this article: http://erlang.org.ar/WebsocketsConCowboy
 
 You can find the english version here:
 http://marcelog.github.com/articles/erlang_websocket_server_cowboy_tutorial.html
+
+start erlang server: erl -pa ebin/ -env ERL_LIBS deps/
+
+http://ninenines.eu/docs/en/cowboy/HEAD/guide/static_handlers/
+
+
+erl -pa ebin/ -env ERL_LIBS deps/:/home/sajith/projects/erws/
+
+http://192.168.1.5:9318/static/index.html
+http://192.168.1.5:9318
+
+either path works
+
+in the index.html remember to set the ip address and /websocket path correctly
+
+LINUX:
+
+create a .erlang file in the home dir of the application
+add the below text to the file - this makes sure all required dependency applications start up automatically
+
+application:start(crypto).
+application:start(ranch).
+application:start(cowlib).
+application:start(cowboy).
+application:start(syntax_tools).
+application:start(compiler).
+application:start(goldrush).
+application:start(lager).
+%% application:start(erws).
+
+
+*NOTE: due to crypto starting 
+
+./rebar compile
+
+will not work
+
+when conpiling disable crypto being started
+
+
+

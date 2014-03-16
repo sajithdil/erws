@@ -16,7 +16,7 @@ function open()
         alert("WebSocket NOT supported by your Browser!");
         return;
     }
-    ws = new WebSocket("ws://192.168.1.4:9318/websocket");
+    ws = new WebSocket("ws://192.168.1.5:9318");
     ws.onopen = function() {
         console.log('connected');
     };
